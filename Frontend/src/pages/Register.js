@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { useForm } from "react-hook-form";
 import UploadImage from "../components/UploadImage";
 
 function Register() {
@@ -11,6 +12,7 @@ function Register() {
     phoneNumber: "",
     imageUrl: "",
   });
+
 
   const navigate = useNavigate();
 
@@ -31,7 +33,7 @@ function Register() {
       .then((result) => {
         alert("Successfully Registered, Now Login with your details");
         navigate('/login')
-        
+
       })
       .catch((err) => console.log(err));
   };
@@ -55,10 +57,20 @@ function Register() {
       .catch((error) => console.log(error));
   };
 
+  // const handleSubmit = (e) => {
+  //   e.preventDefault();
+  //   }
 
-  const handleSubmit = (e) => {
+  const { register, handleSubmit, watch, formState: { errors, isValid } } = useForm({
+    mode: "onChange" // Use onChange mode to update form validity on input change
+  });
+
+  const onSubmit = (data,e) => {
+    console.log(data);
+    registerUser();
     e.preventDefault();
   }
+  const password = watch('password', '');
 
   return (
     <>
@@ -74,30 +86,48 @@ function Register() {
               Register your account
             </h2>
           </div>
-          <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
+          <form className="mt-8 space-y-6" onSubmit={handleSubmit(onSubmit)}>
             {/* <input type="hidden" name="remember" defaultValue="true"  /> */}
             <div className="flex flex-col gap-4 -space-y-px rounded-md shadow-sm">
-              <div className="flex gap-4">
+              <div className=" space-y-2">
+                
                 <input
                   name="firstName"
                   type="text"
                   required
                   className="relative block w-full rounded-t-md border-0 py-1.5 px-1.5 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:z-10 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                   placeholder="First Name"
-                  value={form.firstName}
+                
                   onChange={handleInputChange}
+                  {...register("firstName", {
+                    required: "FIrst name is required",
+                    pattern: {
+                      value: /^[A-Za-z]+$/,
+                      message: "First name must contain only letters"
+                    }
+                  })}
                 />
+             
+                {errors.firstName &&  <p className="text-red-500">{errors.firstName.message}</p>}
                 <input
                   name="lastName"
                   type="text"
                   required
                   className="relative block w-full rounded-t-md border-0 py-1.5 px-1.5 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:z-10 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                   placeholder="Last Name"
-                  value={form.lastName}
+                
                   onChange={handleInputChange}
+                  {...register("lastName", {
+                    required: "Last name is required",
+                    pattern: {
+                      value: /^[A-Za-z]+$/,
+                      message: "Last name must contain only letters"
+                    }
+                  })}
                 />
-              </div>
-              <div>
+             
+                {errors.lastName &&  <p className="text-red-500">{errors.lastName.message}</p>}
+              
                 <input
                   id="email-address"
                   name="email"
@@ -106,9 +136,17 @@ function Register() {
                   required
                   className="relative block w-full rounded-t-md border-0 py-1.5 px-1.5 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:z-10 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                   placeholder="Email address"
-                  value={form.email}
+                  
                   onChange={handleInputChange}
+                  {...register("email", {
+                    required: "Email is required",
+                    pattern: {
+                      value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                      message: "Invalid email address"
+                    }
+                  })}
                 />
+                {errors.email && <p className="text-red-500">{errors.email.message}</p>}
               </div>
               <div>
                 <input
@@ -119,9 +157,40 @@ function Register() {
                   required
                   className="relative block w-full rounded-b-md border-0 py-1.5 px-1.5 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:z-10 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                   placeholder="Password"
-                  value={form.password}
+                  
                   onChange={handleInputChange}
+                  {...register("password", {
+                    required: "Password is required",
+                    minLength: {
+                      value: 8,
+                      message: "Password must be at least 8 characters"
+                    },
+                    pattern: {
+                      value: /^(?=.*[0-9])(?=.*[!@#$%^&*=])/,
+                      message: "Password must contain at least one number and one special character"
+                    }
+                  })}
                 />
+                {errors.password && <p className="text-red-500">{errors.password.message}</p>}
+              </div>
+              <div>
+                <input
+                  id="confirmPassword"
+                  name="confirmPassword"
+                  type="password"
+                  autoComplete="current-password"
+                  required
+                  className="relative block w-full rounded-b-md border-0 py-1.5 px-1.5 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:z-10 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  placeholder="Password"
+                  
+                  onChange={handleInputChange}
+                  {...register("confirmPassword", {
+                    required: "Confirm password is required",
+                    validate: value =>
+                      value === password || "Passwords do not match"
+                  })}
+                />
+                {errors.confirmPassword && <p className="text-red-500">{errors.confirmPassword.message}</p>}
               </div>
               <div>
                 <input
@@ -131,9 +200,17 @@ function Register() {
                   required
                   className="relative block w-full rounded-b-md border-0 py-1.5 px-1.5 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:z-10 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                   placeholder="Phone Number"
-                  value={form.phoneNumber}
+                 
                   onChange={handleInputChange}
+                  {...register("phone", {
+                    required: "Phone number is required",
+                    pattern: {
+                      value: /^\d{11}$/,
+                      message: "Phone number must be 10 digits"
+                    }
+                  })}
                 />
+                 {errors.phone && <p className="text-red-500">{errors.phone.message}</p>}
               </div>
               <UploadImage uploadImage={uploadImage} />
             </div>
@@ -145,7 +222,7 @@ function Register() {
                   name="remember-me"
                   type="checkbox"
                   className="h-4 w-4 rounded border-gray-300 text-[rgb(1,12,128)] focus:ring-[rgb(1,62,128)]"
-                  checked
+                  // checked
                   required
                 />
                 <label
@@ -168,8 +245,9 @@ function Register() {
             <div>
               <button
                 type="submit"
+                disabled={!isValid}
                 className="group relative flex w-full justify-center rounded-md bg-[rgb(1,12,128)] py-2 px-3 text-sm font-semibold text-white hover:bg-[rgb(1,62,128)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                onClick={registerUser}
+                // onClick={registerUser}
               >
                 <span className="absolute inset-y-0 left-0 flex items-center pl-3">
                   {/* <LockClosedIcon
@@ -192,7 +270,7 @@ function Register() {
           </form>
         </div>
         <div className="flex justify-center order-first sm:order-last">
-          <img src={require("../assets/fz.png")} alt="" className=" rounded-lg mr-10"  />
+          <img src={require("../assets/fz.png")} alt="" className=" rounded-lg mr-10" />
         </div>
       </div>
     </>
