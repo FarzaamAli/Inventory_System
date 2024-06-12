@@ -6,11 +6,11 @@ import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 export const data = {
-  labels: ["Apple", "Knorr", "Shoop", "Green", "Purple", "Orange"],
+  labels: ["Tyres", "Engine", "Gear Box", "Break-pads", "Head-lights", "CD-70","Cd-150","CD-100"],
   datasets: [
     {
       label: "# of Votes",
-      data: [0, 1, 5, 8, 9, 15],
+      data: [5000, 3000, 1000, 4000, 3000, 1000,600],
       backgroundColor: [
         "rgba(255, 99, 132, 0.2)",
         "rgba(54, 162, 235, 0.2)",
@@ -18,6 +18,8 @@ export const data = {
         "rgba(75, 192, 192, 0.2)",
         "rgba(153, 102, 255, 0.2)",
         "rgba(255, 159, 64, 0.2)",
+        "rgba(255, 170, 54, 0.2)",
+        "rgba(255, 180, 84, 1)"
       ],
       borderColor: [
         "rgba(255, 99, 132, 1)",
@@ -25,7 +27,9 @@ export const data = {
         "rgba(255, 206, 86, 1)",
         "rgba(75, 192, 192, 1)",
         "rgba(153, 102, 255, 1)",
-        "rgba(255, 159, 64, 1)",
+        "rgba(255, 159, 54, 1)",
+        "rgba(255, 170, 84, 1)",
+        "rgba(255, 180, 84, 1)"
       ],
       borderWidth: 1,
     },
@@ -262,7 +266,7 @@ function Dashboard() {
 
           <div>
             <strong className="block text-sm font-medium text-gray-500">
-              Total Stores
+              Cliental 
             </strong>
 
             <p>

@@ -213,6 +213,7 @@ function Register() {
                  {errors.phone && <p className="text-red-500">{errors.phone.message}</p>}
               </div>
               <UploadImage uploadImage={uploadImage} />
+              <p>Enter profile photo</p>
             </div>
 
             <div className="flex items-center justify-between">
