@@ -23,7 +23,8 @@ function Register() {
 
   // Register User
   const registerUser = () => {
-    fetch("http://localhost:4000/api/register", {
+    console.log( JSON.stringify(form))
+    fetch("https://farzaam-inventory-system.azurewebsites.net/api/register", {
       method: "POST",
       headers: {
         "Content-type": "application/json",

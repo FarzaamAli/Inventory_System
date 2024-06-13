@@ -1,5 +1,6 @@
-const mongoose = require("mongoose");
-const uri = "mongodb+srv://farzaam:farzaam004@cluster0.iwu6udc.mongodb.net/inventory_system";
+const mongoose = require("mongoose"); 
+
+const uri = process.env.MONGO_URI;
 
 
 function main() {

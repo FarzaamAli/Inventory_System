@@ -23,7 +23,7 @@ export default function AddProduct({
   };
 
   const addProduct = () => {
-    fetch("http://localhost:4000/api/product/add", {
+    fetch("https://farzaam-inventory-system.azurewebsites.net/api/product/add", {
       method: "POST",
       headers: {
         "Content-type": "application/json",

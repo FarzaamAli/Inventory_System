@@ -28,7 +28,7 @@ export default function AddSale({
 
   // POST Data
   const addSale = () => {
-    fetch("http://localhost:4000/api/sales/add", {
+    fetch("https://farzaam-inventory-system.azurewebsites.net/api/sales/add", {
       method: "POST",
       headers: {
         "Content-type": "application/json",
